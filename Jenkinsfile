@@ -10,7 +10,7 @@ pipeline {
 
                 echo 'Listing files'
                 // Utiliser la syntaxe de shell pour lister les fichiers
-                sh 'ls -a'
+                sh 'docker build -t .'
             }
         }
 
