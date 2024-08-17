@@ -3,7 +3,9 @@ pipeline{
   stages{
     stage("build"){
       steps{
-        echo "build step"
+        echo "clone project"
+        git clone https://github.com/CTB97/jenkinHelloWorld.git
+        ls -a
       }
     }
     stage("test"){
