@@ -9,7 +9,7 @@ pipeline {
                 checkout scm
 
                 echo 'build image'
-                // Utiliser la syntaxe de shell pour lister les fichiers
+                sh './gradlew build'
                 sh 'docker build -t myapp:latest .'
             }
         }
