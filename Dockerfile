@@ -1,5 +1,5 @@
-FROM openjdk:11 
-WORKDIR /my-project
+FROM openjdk:17 
+WORKDIR /demo
 CMD ["./gradlew", "clean", "bootJar"]
 COPY build/libs/*.jar app.jar
 
