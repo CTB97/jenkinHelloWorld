@@ -8,9 +8,9 @@ pipeline {
                 // Utiliser checkout scm au lieu de git clone
                 checkout scm
 
-                echo 'Listing files'
+                echo 'build image'
                 // Utiliser la syntaxe de shell pour lister les fichiers
-                sh 'docker build -t .'
+                sh 'docker build -t myapp:latest .'
             }
         }
 
