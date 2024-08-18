@@ -1,27 +1,14 @@
-# Étape 1 : Build
-FROM gradle:7.6-jdk17 AS build
+FROM gradle:4.7.0-jdk8-alpine AS build
+COPY --chown=gradle:gradle . /home/gradle/src
+WORKDIR /home/gradle/src
+RUN gradle build --no-daemon 
 
-# Définir le répertoire de travail
-WORKDIR /app
+FROM openjdk:8-jre-slim
 
-# Copier les fichiers de configuration Gradle et les sources
-COPY build.gradle settings.gradle ./
-COPY src ./src
+EXPOSE 8080
 
-# Construire l'application
-RUN gradle build --no-daemon
+RUN mkdir /app
 
-# Étape 2 : Exécution
-FROM openjdk:17-jre-slim
+COPY --from=build /home/gradle/src/build/libs/*.jar /app/spring-boot-application.jar
 
-# Définir le répertoire de travail
-WORKDIR /app
-
-# Copier le JAR construit depuis l'étape de build
-COPY --from=build /app/build/libs/*.jar /app/app.jar
-
-# Exposer le port utilisé par l'application
-EXPOSE 8086
-
-# Commande pour exécuter l'application
-ENTRYPOINT ["java", "-jar", "/app/app.jar"]
+ENTRYPOINT ["java", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-Djava.security.egd=file:/dev/./urandom","-jar","/app/spring-boot-application.jar"]
